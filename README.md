@@ -20,7 +20,7 @@ The software works by a bask shell scriot obtaining the various sunrise ans suns
 The numbers output from sunwait are used as the basis for writing a daily crontab file.  The crontab file then (via cron, of course)
 controls what happens and when.
 
-In use the camera takes a single 800 x 600 jpg image every 60 seconds.  Once every 3 minutes it takes 
+In use the camera takes a single 800 x 600 jpg image every 2 or 4 minutes Day or Night.  Once every 3 minutes it takes 
 the image to concatenate into one of two movies for day and night.  The movies run at 8 fps with the 
 aim of making two daily movies of about 30 seconds each.  The device does not keep data once it has 
 been depassed.  This means you can run the AllSky Cam from an 8GB or smaller microSD card,
@@ -107,5 +107,5 @@ cp sunwait /usr/local/bin/sunwait
 
 reboot
 
-Go to the Rarpberry Pi's IP address on you LAN with your browser.  It wil take up to 2 minutes 
+Go to the Raspberry Pi's IP address on you LAN with your browser.  It wil take up to 2 minutes 
 to produce and image in daytaime and up to 4 minutes at night. 
