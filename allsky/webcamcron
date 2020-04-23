@@ -1,0 +1,149 @@
+#* * * * *
+#* * * * *
+#* * * * *
+#* * * * *
+#0123456789 command to be executed - - - - -
+# m h dom mon dow command
+# * *  *   *   *
+# | |  |  / __/
+# | |  / / /
+# * * * * *
+# . . . . .
+# . . . . ----- Day of week (0 - 7) (Sunday=0 or 7)
+# . . . ------- Month (1 - 12)
+# . . --------- Day of month (1 - 31)
+# . ----------- Hour (0 - 23)
+# ------------- Minute (0 - 59)
+# * * * * *
+# *************************************
+#
+# Reboot
+#5 4 * * * /sbin/shutdown -r +5
+#
+# Run at reboot
+@reboot /home/allsky/webcam
+#
+# ***  R U N   W E B C A M   T O   G E N E R A T E   A   N E W   D A I L Y   C R O N T A B   F I L E.
+3 4 * * * /home/allsky/webcam> /dev/null 2>&1
+#
+# ***  RASPISTILL S T I L L   I M A G E   S H O T S   F O R  D A Y   A N D   N I G H T
+# *** DAYTIME STILL IMAGE SHOTS
+# DAYTIME raspistill image grab every */2 minutes.
+17 06 * * * echo -n 'D'>/home/allsky/state
+17 06 * * * echo -e 2>>/home/allsky/daily
+17 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+#
+# Regular */2 minutes raspistill DAYTIME image shots
+*/2 7-19 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+#
+# DAY TIME fill in raspistill image grab AFTER 7 AM until hour as needed.
+19 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+21 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+23 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+25 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+27 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+29 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+31 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+33 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+35 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+37 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+39 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+41 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+43 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+45 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+47 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+49 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+51 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+53 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+55 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+57 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+59 06 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+#
+# DAYTIME fill in every */2 minutes raspistill image grab until NIGHT VIDEO starts as needed.
+26 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+28 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+30 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+32 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+34 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+36 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+38 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+40 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+42 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+44 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+46 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+48 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+50 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+52 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+54 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+56 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+58 6 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+#
+# *** NIGHT TIME STILL IMAGE SHOTS
+# Regular */4 minutes raspistill NIGHT TIME image shots
+*/4 21-23 * * * /usr/bin/raspistill -ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 8000000 -w 800 -h 600 -o /run/shm/webcam.jpg
+*/4 0-6 * * * /usr/bin/raspistill -ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 8000000 -w 800 -h 600 -o /run/shm/webcam.jpg
+#
+# NIGHT TIME fill in every */4 minutes raspistill image grab AFTER start until hour as needed.
+21 20 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+25 20 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+29 20 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+33 20 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+37 20 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+41 20 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+45 20 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+49 20 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+53 20 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+57 20 * * * /usr/bin/raspistill -ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/webcam.jpg
+#
+# NIGHT TIME raspistill image grab every */4 minutes.
+24 20 * * * echo -n 'N'>/home/allsky/state
+24 20 * * * echo -e 4>>/home/allsky/daily
+24 20 * * * /usr/bin/raspistill -ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 8000000 -w 800 -h 600 -o /run/shm/webcam.jpg
+#
+# NIGHT TIME fill in raspistill image grab as needed.
+28 20 * * * /usr/bin/raspistill -ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 8000000 -w 800 -h 600 -o /run/shm/webcam.jpg
+32 20 * * * /usr/bin/raspistill -ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 8000000 -w 800 -h 600 -o /run/shm/webcam.jpg
+36 20 * * * /usr/bin/raspistill -ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 8000000 -w 800 -h 600 -o /run/shm/webcam.jpg
+40 20 * * * /usr/bin/raspistill -ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 8000000 -w 800 -h 600 -o /run/shm/webcam.jpg
+44 20 * * * /usr/bin/raspistill -ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 8000000 -w 800 -h 600 -o /run/shm/webcam.jpg
+48 20 * * * /usr/bin/raspistill -ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 8000000 -w 800 -h 600 -o /run/shm/webcam.jpg
+52 20 * * * /usr/bin/raspistill -ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 8000000 -w 800 -h 600 -o /run/shm/webcam.jpg
+56 20 * * * /usr/bin/raspistill -ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 8000000 -w 800 -h 600 -o /run/shm/webcam.jpg
+0 21 * * * /usr/bin/raspistill -ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 8000000 -w 800 -h 600 -o /run/shm/webcam.jpg
+#
+# ***  M A K E  V I D E O S
+# ***  R E G U L A R  I M A G E   C O P Y  T O   M A K E   V I D E O S
+# Copy the images every */3 minutes.   This for both Day and Night Videos.
+*/3 * * * * /home/allsky/pics/copypic.sh> /dev/null 2>&1
+#
+# ***  D A Y   V I D E O
+# Make a new Day time vIDEO
+20 06 * * * /home/allsky/pics/newdaymovie.sh> /dev/null 2>&1
+#
+# Regular */10 minute concatenation.
+*/10 7-19 * * * /home/allsky/pics/concatday.sh> /dev/null 2>&1
+#
+# Provide fill-in image concatenation if / as neccessary to keep the Daytime */10 minute interval.
+30 6 * * * /home/allsky/pics/concatday.sh> /dev/null 2>&1
+40 6 * * * /home/allsky/pics/concatday.sh> /dev/null 2>&1
+50 6 * * * /home/allsky/pics/concatday.sh> /dev/null 2>&1
+0 ((amtHVid+1)) * * * /home/allsky/pics/concatday.sh> /dev/null 2>&1
+#
+# ***  N I G H T   V I D E O
+# Make a new Night time Video
+29 20 * * * /home/allsky/pics/newnightmovie.sh> /dev/null 2>&1
+# Regular 10 minute concatenation.
+*/10 21-23 * * * /home/allsky/pics/concatnight.sh> /dev/null 2>&1
+*/10 0-5 * * * /home/allsky/pics/concatnight.sh> /dev/null 2>&1
+#
+# DAY TIME fill conatenation up to 21 until hour as needed.
+10 20 * * * /home/allsky/pics/concatday.sh> /dev/null 2>&1
+20 20 * * * /home/allsky/pics/concatday.sh> /dev/null 2>&1
+#
+# Provide fill-in image concatenation if / as neccessary to keep the Nighttime */10 minute interval.
+39 20 * * * /home/allsky/pics/concatnight.sh> /dev/null 2>&1
+49 20 * * * /home/allsky/pics/concatnight.sh> /dev/null 2>&1
+59 20 * * * /home/allsky/pics/concatnight.sh> /dev/null 2>&1
+#
+# Thu Apr 16 17:06:44 EDT 2020
+# E N D

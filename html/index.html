@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+Version : 1.0.0
+Date : 2013-08-11
+File : /var/www/index.html
+Info : http://www.dronkert.net/rpi/webcam.html
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-gb" xml:lang="en-gb">
+	<head profile="http://www.w3.org/2005/10/profile">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>AllSky</title>
+		<meta name="keywords" content="raspberry pi, camera, webcam, raspistill, php, javascript" />
+		<meta name="description" lang="en-gb" content="This is my webcam. There are many like it, but this one is mine." />
+		<meta name="author" content="Ewoud Dronkert" />
+		<style type="text/css">
+			img#view { display: block; }
+	        </style><body style="background-color:black"><style="color:#fcba03">		
+		<script type="text/javascript">
+			var shotinterval = 120;    // Seconds between shots
+			var shottimer = null;      // Countdown timer to the next shot
+			var shootingnow = false;   // To avoid parallel execution
+
+			// Start the timer
+			function start() {
+				shottimer = window.setTimeout(shoot, 1000 * shotinterval);
+			}
+
+			// Stop the timer
+			// Return previous state (was it running? true/false)
+			function stop() {
+				if (shottimer) {
+					window.clearTimeout(shottimer);
+					shottimer = null;
+					return true;
+				}
+				return false;
+			}
+
+			// Stop the timer when running, start when not running
+			// Avoid undefined state by checking for image refresh in progress
+			function toggle() {
+				if (!shootingnow) {
+					var wasrunning = stop(), node;
+					if (node = document.getElementById("ctrl"))
+						node.innerHTML = wasrunning ? "Start" : "Stop";
+					if (!wasrunning)
+						shoot();
+				}
+			}
+
+			// Refresh the webcam image by re-setting the src attribute
+			function shoot() {
+				shootingnow = true;
+				var img; 
+				if (img = document.getElementById("view"))  
+					img.src = "webcam.php?" + Date.now();
+				start();
+				shootingnow = false;
+			}
+		</script>
+	</head>
+
+
+	<body onload="start()">
+		<img id="view" src="webcam.php" alt="[webcam]" title="AllSky" />
+		<font size="+6"><font face="verdana">
+		<script>
+		    document.write('<a href="' + document.referrer + '"style="color: #fcba03" + font size="+6" + font face="verdana">&laquo; Back</a>............................');
+		</script></font>
+		<a id="ctrl" href="#" onclick="toggle()"><font size="+6"><font face="verdana">Stop</font></a>
+	</body>
+
+</html>
