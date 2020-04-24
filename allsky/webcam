@@ -315,7 +315,7 @@ echo "$amtM $amtH * * * $EXE $Daytime">>$HOME/webcamcron
 echo "#">>$HOME/webcamcron
 
 echo "# Regular */$shotD minutes raspistill DAYTIME image shots">>$HOME/webcamcron
-echo "*/$shotD $((amtH+1))-$((twiH)) * * * $EXE $Daytime">>$HOME/webcamcron
+echo "*/$shotD $((amtH+1))-$((twiH-1)) * * * $EXE $Daytime">>$HOME/webcamcron
 echo "#">>$HOME/webcamcron
 
 # Day time raspistill fill in
