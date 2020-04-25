@@ -291,24 +291,23 @@ echo "#">>$HOME/webcamcron
 # Reboot the Pi if needed.
 echo "# Reboot">>$HOME/webcamcron
 echo "#5 4 * * * /sbin/shutdown -r +5">>$HOME/webcamcron
-echo "#">>$HOME/webcamcron
+echo "">>$HOME/webcamcron
 
 # Run at reboot.
 echo "# Run at reboot">>$HOME/webcamcron
 echo "@reboot $HOME/webcam">>$HOME/webcamcron
-echo "#">>$HOME/webcamcron
+echo "">>$HOME/webcamcron
 
 # Run webcam so the crontab file can be regenerated daily.
 echo "# ***  R U N   W E B C A M   T O   G E N E R A T E   A   N E W   D A I L Y   C R O N T A B   F I L E.">>$HOME/webcamcron
 echo "0 4 * * * /usr/sbin/service /usr/sbin/cron stop">>$HOME/webcamcron
 echo "3 4 * * * $HOME/webcam> /dev/null 2>&1">>$HOME/webcamcron
 echo "4 4 * * * /usr/sbin/service /usr/sbin/cron start">>$HOME/webcamcron
-echo "#">>$HOME/webcamcron
+echo "">>$HOME/webcamcron
 
 echo "# ***  RASPISTILL S T I L L   I M A G E   S H O T S   F O R  D A Y   A N D   N I G H T">>$HOME/webcamcron
-
 echo "# *** DAYTIME STILL IMAGE SHOTS">>$HOME/webcamcron
-echo "# DAYTIME raspistill image grab every */$shotD minutes.">>$HOME/webcamcron
+echo "# DAYTIME CAMERA MODE [ $amtH:$amtM ] raspistill image grab every */$shotD minutes.">>$HOME/webcamcron
 echo "$amtM $amtH * * * echo -n 'D'>$HOME/state">>$HOME/webcamcron
 echo "$amtM $amtH * * * echo -e $shotD>>$HOME/daily">>$HOME/webcamcron
 echo "$amtM $amtH * * * $EXE $Daytime">>$HOME/webcamcron
@@ -319,7 +318,7 @@ echo "*/$shotD $((amtH+1))-$((twiH-1)) * * * $EXE $Daytime">>$HOME/webcamcron
 echo "#">>$HOME/webcamcron
 
 # Day time raspistill fill in
-echo "# DAY TIME fill in raspistill image grab AFTER $((amtH+1)) AM until hour as needed.">>$HOME/webcamcron
+echo "# DAY TIME fill in raspistill image grab AFTER $((amtH)) AM until hour as needed.">>$HOME/webcamcron
 # Strip leading zero
 amtMx=$(echo $amtM | sed 's/^0*//')
 for (( d = $amtMx ; d <= 60 ; d = d + $shotD )); do
@@ -335,44 +334,46 @@ done
 echo "#">>$HOME/webcamcron
 
 # raspistill time fill in when Daytime needs it
-echo "# DAYTIME fill in every */$shotD minutes raspistill image grab until NIGHT VIDEO starts as needed.">>$HOME/webcamcron
+echo "# DAY TIME fill in raspistill image grab until NIGHT Camera Mode,  as needed.">>$HOME/webcamcron
 # Strip leading zero
-nigMz=$(echo $nigM | sed 's/^0*//')
-for (( z = $nigMz ; z <= 60 ; z = z + $shotD )); do
-  if [[ "$z" -lt $nigMz+$shotD ]]; then
+nigMx=$(echo $nigM | sed 's/^0*//')
+for (( d = 0 ; d <=$nigMx-$shotD ; d = d + $shotD )); do
+  if [[ "$d" -lt $shotD ]]; then
     continue
   fi
-  if [[ "$z" -lt 60 ]]; then
-     echo "$z $((amtH)) * * * $EXE $Daytime">>$HOME/webcamcron
-fi
+  if [[ "$d" -lt 60 ]]; then
+     echo "$d $nigH * * * $EXE $Daytime">>$HOME/webcamcron
+  else
+     echo "0 $((nigH+1)) * * * $EXE $Daytime">>$HOME/webcamcron
+  fi
 done
+echo "">>$HOME/webcamcron
+
+echo "# *** NIGHT TIME CAMERA MODE [ $nigH:$nigM ] raspistill image grab every */$shotN minutes.">>$HOME/webcamcron
+echo "$nigM $nigH * * * echo -n 'N'>$HOME/state">>$HOME/webcamcron
+echo "$nigM $nigH * * * echo -e $shotN>>$HOME/daily">>$HOME/webcamcron
+echo "$nigM $nigH * * * $EXE $Nighttime">>$HOME/webcamcron
 echo "#">>$HOME/webcamcron
 
-echo "# *** NIGHT TIME STILL IMAGE SHOTS">>$HOME/webcamcron
+echo "# NIGHT TIME STILL IMAGE SHOTS">>$HOME/webcamcron
 echo "# Regular */$shotN minutes raspistill NIGHT TIME image shots">>$HOME/webcamcron
 echo "*/$shotN $((nigH+1))-23 * * * $EXE $Nighttime">>$HOME/webcamcron
 echo "*/$shotN 0-$((amtH-1)) * * * $EXE $Nighttime">>$HOME/webcamcron
 echo "#">>$HOME/webcamcron
 
 # raspistill time fill in when Night time needs it
-echo "# NIGHT TIME fill in every */$shotN minutes raspistill image grab AFTER start until hour as needed.">>$HOME/webcamcron
+#echo "# NIGHT TIME fill in every */$shotN minutes raspistill image grab AFTER start until hour as needed.">>$HOME/webcamcron
 # Strip leading zero
-amtMy=$(echo $amtM | sed 's/^0*//')
-for (( y = $amtMy ; y <= 60 ; y = y + $shotN )); do
-  if [[ "$y" -lt $amtMy+$shotN ]]; then
-    continue
-  fi
-  if [[ "$y" -lt 60 ]]; then
-     echo "$y $((nigH)) * * * $EXE $Nighttime">>$HOME/webcamcron
-fi
-done
-echo "#">>$HOME/webcamcron
-
-echo "# NIGHT TIME raspistill image grab every */$shotN minutes.">>$HOME/webcamcron
-echo "$nigM $nigH * * * echo -n 'N'>$HOME/state">>$HOME/webcamcron
-echo "$nigM $nigH * * * echo -e $shotN>>$HOME/daily">>$HOME/webcamcron
-echo "$nigM $nigH * * * $EXE $Nighttime">>$HOME/webcamcron
-echo "#">>$HOME/webcamcron
+#amtMy=$(echo $amtM | sed 's/^0*//')
+#for (( y = $amtMy ; y <= 60 ; y = y + $shotN )); do
+#  if [[ "$y" -lt $amtMy+$shotN ]]; then
+#    continue
+#  fi
+#  if [[ "$y" -lt 60 ]]; then
+#     echo "$y $((nigH)) * * * $EXE $Nighttime">>$HOME/webcamcron
+#fi
+#done
+#echo "#">>$HOME/webcamcron
 
 # Night time raspistill fill in
 echo "# NIGHT TIME fill in raspistill image grab as needed.">>$HOME/webcamcron
@@ -388,15 +389,15 @@ for (( n = $nigMx ; n <= 60 ; n = n + $shotN )); do
      echo "0 $((nigH+1)) * * * $EXE $Nighttime">>$HOME/webcamcron
   fi
 done
-echo "#">>$HOME/webcamcron
+echo "">>$HOME/webcamcron
 
 echo "# ***  M A K E  V I D E O S">>$HOME/webcamcron
 echo "# ***  R E G U L A R  I M A G E   C O P Y  T O   M A K E   V I D E O S">>$HOME/webcamcron
 echo "# Copy the images every */$cap minutes.   This for both Day and Night Videos.">>$HOME/webcamcron
 echo "*/$cap * * * * $HOME/pics/copypic.sh> /dev/null 2>&1">>$HOME/webcamcron
-echo "#">>$HOME/webcamcron
+echo "">>$HOME/webcamcron
 
-echo "# ***  D A Y   V I D E O">>$HOME/webcamcron
+echo "# ***  D A Y   V I D E O  [ $amtHVid:$amtMVid ]">>$HOME/webcamcron
 echo "# Make a new Day time VIDEO">>$HOME/webcamcron
 echo "$amtMVid $amtHVid * * * $HOME/pics/newdaymovie.sh> /dev/null 2>&1">>$HOME/webcamcron
 echo "#">>$HOME/webcamcron
@@ -417,13 +418,12 @@ for (( cD = $amtMxcam ; cD <= 60 ; cD = cD + $concat )); do
    if [[ "$cD" -lt 60 ]]; then
       echo "$cD $((amtHVid)) * * * $HOME/pics/concatday.sh> /dev/null 2>&1">>$HOME/webcamcron
    else
-      echo "0 ((amtHVid+1)) * * * $HOME/pics/concatday.sh> /dev/null 2>&1">>$HOME/webcamcron
+      echo "0 $((amtHVid+1)) * * * $HOME/pics/concatday.sh> /dev/null 2>&1">>$HOME/webcamcron
    fi
 done
-echo "#">>$HOME/webcamcron
+echo "">>$HOME/webcamcron
 
-
-echo "# ***  N I G H T   V I D E O">>$HOME/webcamcron
+echo "# ***  N I G H T   V I D E O  [ $nigHVid:$nigMVid ]">>$HOME/webcamcron
 echo "# Make a new Night time Video">>$HOME/webcamcron
 echo "$nigMVid $nigHVid * * * $HOME/pics/newnightmovie.sh> /dev/null 2>&1">>$HOME/webcamcron
 echo "# Regular $concat minute concatenation.">>$HOME/webcamcron
@@ -431,7 +431,7 @@ echo "*/$concat $((nigHVid+1))-23 * * * $HOME/pics/concatnight.sh> /dev/null 2>&
 echo "*/$concat 0-$((amtHVid-1)) * * * $HOME/pics/concatnight.sh> /dev/null 2>&1">>$HOME/webcamcron
 echo "#">>$HOME/webcamcron
 
-echo "# DAY TIME fill conatenation up to $((nigH+1)) until hour as needed.">>$HOME/webcamcron
+echo "# Fill in conatenation until [ $((nigH+1)):00 ] as needed.">>$HOME/webcamcron
 # Strip leading zero
 nigMVidFN=$(echo $nigMVid | sed 's/^0*//')
 for (( d = 0 ; d <=$nigMVidFN ; d = d + $concat )); do
@@ -458,7 +458,7 @@ for (( cN = $nigMxcam ; cN <= 60 ; cN = cN + $concat )); do
       echo "0 $((nigHVid+1)) * * * $HOME/pics/concatnight.sh> /dev/null 2>&1">>$HOME/webcamcron
    fi
 done
-echo "#">>$HOME/webcamcron
+echo "">>$HOME/webcamcron
 
 echo "# $(date)">>$HOME/webcamcron
 echo "# E N D">>$HOME/webcamcron
@@ -477,7 +477,7 @@ echo -e $timer>>$HOME/daily
 # Display today's Sun rise and set times and the times when the camea switches modes and when the Day / Night video switching happens.
 echo
 echo "E V E N T                                      HH:MM OFFSET"
-echo "--------------------------------------------   ----- ------"
+echo "---------------------------------------------  ----- ------"
 echo "Astronomical Rise (18 degrees below horizon): " $AstroRise
 echo "Astronomical Rise (Real)                    : " $AstroRiseReal
 echo "Nautical Rise (12 degrees below horizon)    : " $NauticalRise
