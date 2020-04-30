@@ -1,9 +1,17 @@
 #!/bin/bash
 # File newnightmovie.sh
 
-# Concatenate any remaining still image file into the Day yes, the DAY video
+# Remove any files that may be too small as they were grabbed at changeover that may be incomplete.
+/usr/bin/find . -name "/home/allsky/pics/webcam-*.jpg" -type 'f' -size -110k -delete
+
+# Check the essential presence of raspistill webcam-*.jpg file(s).  If none, wait for one to be created.
+while [ ! -f /home/allsky/pics/webcam-*.jpg  ]; do sleep 1; done
+
+# Run a DAY concatonate to add any last remaining still images to the Day video.
+# This means that the last few still image(s) of the Day Video will be at the start of the Night video.
+#
 # Make a copy of the current movie so the user still has access and we can also work on the new one
-cp /home/allsky/pics/movieday.mp4 /home/allsky/pics/temp1.mp4
+/bin/cp /home/allsky/pics/movieday.mp4 /home/allsky/pics/temp1.mp4
 
 # Make a new movie of this last period
 /usr/bin/ffmpeg -framerate 5 -pix_fmt yuv420p -pattern_type  glob -i '/home/allsky/pics/webcam-*.jpg' -c:v libx264 /home/allsky/pics/temp2.mp4
@@ -13,38 +21,35 @@ cp /home/allsky/pics/movieday.mp4 /home/allsky/pics/temp1.mp4
 /usr/bin/ffmpeg -i /home/allsky/pics/temp2.mp4 -c copy -bsf:v h264_mp4toannexb -f mpegts /home/allsky/pics/input2.ts
 /usr/bin/ffmpeg -i "concat:/home/allsky/pics/input1.ts|/home/allsky/pics/input2.ts" -c copy /home/allsky/pics/temp3.mp4
 
-# Move the new mp4 to replace the old
-cp /home/allsky/pics/temp3.mp4 /home/allsky/pics/movieday.mp4
-cp /home/allsky/pics/movieday.mp4 /var/www/html/movieday.mp4
+# Move the new mp4 to replace the old.
+/bin/cp /home/allsky/pics/temp3.mp4 /home/allsky/pics/movieday.mp4
+/bin/cp /home/allsky/pics/movieday.mp4 /var/www/html/movieday.mp4
 
 # Clean up ready for next time
-rm /home/allsky/pics/temp*.mp4
-rm /home/allsky/pics/*.ts
-cp /home/allsky/pics/webcam-*.jpg /home/allsky/pics/night/
-rm /home/allsky/pics/webcam-*.jpg
-# Done
+/bin/rm /home/allsky/pics/temp*.mp4
+/bin/rm /home/allsky/pics/*.ts
+/bin/cp /home/allsky/pics/webcam-*.jpg /home/allsky/pics/night/
+#/bin/rm /home/allsky/pics/webcam-*.jpg
 
-# No make the new night video
-rm /home/allsky/pics/movienight.mp4
+# Now make the new night video.
+# Remove yesterday's Night movie.
+/bin/rm /home/allsky/pics/movienight.mp4
 
-# Check to see if there are any .jpg files with which to make a new movie.  If not, get a couple.
-#if ls /home/allsky/pics/webcam-*.jpg 1> /dev/null 2>&1; then
-#    echo "webcam-*.jpg files do exist"> /dev/null 2>&1
-#else
-#    echo "files do not exist"> /dev/null 2>&1
+# Check to see if there are any .jpg files with which to make a new movie.  If not, get a one.
+if /bin/ls /home/allsky/pics/webcam-*.jpg 1> /dev/null 2>&1; then
+    echo "webcam-*.jpg files do exist"> /dev/null 2>&1
+else
+    echo "files do not exist"> /dev/null 2>&1
 
-    # Remove any files that are too small as they were grabbed at changeover that may be incomplete.
-    find . -name "/home/allsky/pics/day/webcam-*.jpg" -type 'f' -size -90k -delete
+    # Copy the latest file from day to ../pics.
+    /bin/cp $(/bin/ls -t /home/allsky/pics/day/* | /usr/bin/head -1) /home/allsky/pics
+fi
 
-    # Copy the latest two files from day to ../pics
-    cp $(ls -t /home/allsky/pics/day/* | head -2) /home/allsky/pics
-#fi
-
-# Make a new movie of this last period
+# Make a new movie of this last period.
 /usr/bin/ffmpeg -framerate 5 -pix_fmt yuv420p -pattern_type  glob -i '/home/allsky/pics/webcam-*.jpg' -c:v libx264 /home/allsky/pics/movienight.mp4
 
 # Put it where the web files can read it.
-cp /home/allsky/pics/movienight.mp4 /var/www/html/movienight.mp4
+/bin/cp /home/allsky/pics/movienight.mp4 /var/www/html/movienight.mp4
 
-# Get rid of unneeded files (if any)
-rm /home/allsky/pics/night/webcam-*.jpg
+# Get rid of unneeded files (if any).
+/bin/rm /home/allsky/pics/night/webcam-*.jpg

@@ -108,29 +108,29 @@ lon=80.99140269W # This MUST be 12 bytes long
 #
 # Shifts camera mode time at  Morning Twilight / Day
 #       HH:MM
-twiRise=-00:10 # Advance or delay when the camera switches from night to day.
-twiRiseP=-00:08 # Poll Rise time needs to be at least 1 minute EARLIER.  This is to ensure the changeover of camera mode works
+twiRise=-00:10 # Advance or delay the displayed time.
+twiRiseP=-00:08 # Camera switch time.  Needs to be at least 1 minute EARLIER than the Video switch time.
 twiRiseVid=-00:05 # Offset advance or delay for the Video Day / Night switch.
 
 # Shifts camera mode time at Morning Twilight /  Day
 #     HH:MM Not used anymore
 SRise=00:00 # Advance or delay when the camera switches from night to day.
-SRiseP=00:00 # Poll Rise time needs to be at least 1 minute EARLIER.  This is to ensure the changeover of camera mode works
+SRiseP=00:00 # Camera switch time. Needs to be at least 1 minute EARLIER than the Video switch time.
 SRiseVid=00:00 # Offset advance or delay for the Video Day / Night switch.
 
 # Shifts camera mode time at Day / Evening Twilight
 # For the dusk  camera mode
 #     HH:MM Not used anymore
 SSet=-00:00 # Advance or delay when the camera switches from night to day.
-SSetP=00:00 # Poll Set time needs to be at least 1 minute LATER.  This is to ensure the changeover of camera mode works
+SSetP=00:00 # Camera switch time.  Needs to be at least 1 minute EARLIER than the Video switch time.
 SSetVid=-00:00 # Offset advance or delay for the Video Day / Night switch.
 
 # Shifts camera mode time at Evening Twilight / NIght
 # For the night camera mode
 #       HH:MM
-twiSet=-00:10 # Advance or delay when the camera switches from day to night.
-twiSetP=-00:14 # Poll Set time needs to be at least 1 minute LATER just to make sure  suntimes really has changed state.
-twiSetVid=-00:19 # Offset advance or delay for the Video Day / Night switch.
+twiSet=-00:00 # Advance or delay when the camera switches from day to night.
+twiSetP=-00:01 # Camera switch time.  Needs to be at least 1 minute EARLIER than the Video switch time.
+twiSetVid=-00:03 # Offset advance or delay for the Video Day / Night switch.
 
 # Number of minutes  between movie frame concatenation.  Default here is 10 [minutes]
 concat=10
@@ -146,7 +146,7 @@ shotN=4 # Night time shot interval.  It can take raspistill up to 1 minute 45 se
 # Create the Day and Night variable arguments for raspistill with which to take still images.
 # NOte that Horizonatal and Vertical Flip ( -hf and -vf ) may be needed to orinetate your images correctly.
 Daytime="-ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/$SCR.jpg"
-Nighttime="-ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 8000000 -w 800 -h 600 -o /run/shm/$SCR.jpg"
+Nighttime="-ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 6000000 -w 800 -h 600 -o /run/shm/$SCR.jpg"
 # *** E N D   O F   S E T U P *************************************************************************
 
 # Sunwait to get today's times
@@ -478,11 +478,11 @@ echo -e $timer>>$HOME/daily
 echo
 echo "E V E N T                                      HH:MM OFFSET"
 echo "---------------------------------------------  ----- ------"
-echo "Astronomical Rise (18 degrees below horizon): " $AstroRise
+echo "Astronomical Rise (18 degrees below horizon): " $AstroRise $twiRise
 echo "Astronomical Rise (Real)                    : " $AstroRiseReal
-echo "Nautical Rise (12 degrees below horizon)    : " $NauticalRise
+echo "Nautical Rise (12 degrees below horizon)    : " $NauticalRise $twiRise
 echo "Nautical Rise (Real)                        : " $NauticalRiseReal
-echo "Civil Rise (6 degrees below horizon)        : " $CivilRise
+echo "Civil Rise (6 degrees below horizon)        : " $CivilRise $twiRise
 echo "Civil Rise (Real)                           : " $CivilRiseReal
 echo "CAMERA switches from Night to Day           : " $twilightRiseCam $twiRiseP
 echo "VIDEO switches from Night to Day            : " $twilightRiseVid $twiRiseVid
@@ -490,25 +490,25 @@ echo "Sunrise (0 degrees below horizon)           : " $SunRise $SRiseP
 echo "Sunrise (Real)                              : " $SunRiseReal
 echo "Sunset (0 degrees below horizon)            : " $SunSet $SSetP
 echo "Sunset (Real)                               : " $SunSetReal
-echo "Civil Set (6 degrees below horizon)         : " $CivilSet
+echo "Civil Set (6 degrees below horizon)         : " $CivilSet $twiSet
 echo "Civil Set (Real)                            : " $CivilSetReal
 echo "CAMERA switches from Day to Night           : " $CameraPM $twiSetP
 echo "VIDEO switches from Day to Night            : " $twilightSetVid $twiSetVid
-echo "Nautical Set (12 degrees below horizon)     : " $NauticalSet
+echo "Nautical Set (12 degrees below horizon)     : " $NauticalSet $twiSet
 echo "Nautical Set (Real)                         : " $NauticalSetReal
-echo "Astronomical Set (18 degrees below horizon) : " $AstroSet
+echo "Astronomical Set (18 degrees below horizon) : " $AstroSet $twiSet
 echo "Astronomical Set (Real)                     : " $AstroSetReal
 # *******************************************************************************
 
 # Write the same data to /home/allsky/daily_times.txt
 echo " ">/home/allsky/daily_times.txt
 echo "E V E N T                                      HH:MM OFFSET">>/home/allsky/daily_times.txt
-echo "--------------------------------------------   ----- ------">>/home/allsky/daily_times.txt
-echo "Astronomical Rise (18 degrees below horizon):  $AstroRise">>/home/allsky/daily_times.txt
+echo "---------------------------------------------  ----- ------">>/home/allsky/daily_times.txt
+echo "Astronomical Rise (18 degrees below horizon):  $AstroRise $twiRise">>/home/allsky/daily_times.txt
 echo "Astronomical Rise (Real)                    :  $AstroRiseReal">>/home/allsky/daily_times.txt
-echo "Nautical Rise (12 degrees below horizon)    :  $NauticalRise">>/home/allsky/daily_times.txt
+echo "Nautical Rise (12 degrees below horizon)    :  $NauticalRise $twiRise">>/home/allsky/daily_times.txt
 echo "Nautical Rise (Real)                        :  $NauticalRiseReal">>/home/allsky/daily_times.txt
-echo "Civil Rise (6 degrees below horizon)        :  $CivilRise">>/home/allsky/daily_times.txt
+echo "Civil Rise (6 degrees below horizon)        :  $CivilRise $twiRise">>/home/allsky/daily_times.txt
 echo "Civil Rise (Real)                           :  $CivilRiseReal">>/home/allsky/daily_times.txt
 echo "CAMERA switches from Night to Day           :  $twilightRiseCam $twiRiseP">>/home/allsky/daily_times.txt
 echo "VIDEO switches from Night to Day            :  $twilightRiseVid $twiRiseVid">>/home/allsky/daily_times.txt
@@ -516,12 +516,13 @@ echo "Sunrise (0 degrees below horizon)           :  $SunRise $SRiseP">>/home/al
 echo "Sunrise (Real)                              :  $SunRiseReal">>/home/allsky/daily_times.txt
 echo "Sunset (0 degrees below horizon)            :  $SunSet $SSetP">>/home/allsky/daily_times.txt
 echo "Sunset (Real)                               :  $SunSetReal">>/home/allsky/daily_times.txt
-echo "Civil Set (6 degrees below horizon)         :  $CivilSet">>/home/allsky/daily_times.txt
+echo "Civil Set (6 degrees below horizon)         :  $CivilSet $twiSet">>/home/allsky/daily_times.txt
 echo "Civil Set (Real)                            :  $CivilSetReal">>/home/allsky/daily_times.txt
 echo "CAMERA switches from Day to Night           :  $CameraPM $twiSetP">>/home/allsky/daily_times.txt
 echo "VIDEO switches from Day to Night            :  $twilightSetVid $twiSetVid">>/home/allsky/daily_times.txt
-echo "Nautical Set (12 degrees below horizon)     :  $NauticalSet">>/home/allsky/daily_times.txt
+echo "Nautical Set (12 degrees below horizon)     :  $NauticalSet $twiSet">>/home/allsky/daily_times.txt
 echo "Nautical Set (Real)                         :  $NauticalSetReal">>/home/allsky/daily_times.txt
+echo "Astronomical Set (18 degrees below horizon) :  $AstroSet $twiSet">>/home/allsky/daily_times.txt
 echo "Astronomical Set (Real)                     :  $AstroSetReal">>/home/allsky/daily_times.txt
 echo " ">>/home/allsky/daily_times.txt
 echo "$(date)">>/home/allsky/daily_times.txt
