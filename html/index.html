@@ -6,6 +6,33 @@ Date : 2013-08-11
 File : /var/www/index.html
 Info : http://www.dronkert.net/rpi/webcam.html
 -->
+
+<script type="text/php">
+<?php
+$myfile = fopen("/home/allsky/daily", "r") or die("Unable to open file!");
+$mtimes=fread($myfile,filesize("/home/allsky/daily"));
+
+$ADawn=substr($mtimes,0,5);
+$NDawn=substr($mtimes,6,5);
+$CDawn=substr($mtimes,12,5);
+$SRise=substr($mtimes,18,5);
+$SSet=substr($mtimes,24,5);
+$CSet=substr($mtimes,30,5);
+$NSet=substr($mtimes,36,5);
+$ASet=substr($mtimes,42,5);
+$VDay=substr($mtimes,52,5);
+$VNight=substr($mtimes,58,5);
+$VidAM=substr($mtimes,58,5);
+$VidPM=substr($mtimes,58,5);
+$CamAM=substr($mtimes,64,5);
+$CamPM=substr($mtimes,70,5);
+$Concat=substr($mtimes,76,2);
+$ShotTime=substr($mtimes,79,1);
+
+fclose($myfile);
+?>
+</script>
+
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-gb" xml:lang="en-gb">
 	<head profile="http://www.w3.org/2005/10/profile">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -19,11 +46,13 @@ Info : http://www.dronkert.net/rpi/webcam.html
 		<script type="text/javascript">
 			var shotinterval = 120;    // Seconds between shots
 			var shottimer = null;      // Countdown timer to the next shot
+			var sss = null;            // Display timer to the next shot
 			var shootingnow = false;   // To avoid parallel execution
 
 			// Start the timer
 			function start() {
 				shottimer = window.setTimeout(shoot, 1000 * shotinterval);
+				sss = setTimeout(showTime, 1000 * shotinterval);
 			}
 
 			// Stop the timer
@@ -43,7 +72,7 @@ Info : http://www.dronkert.net/rpi/webcam.html
 				if (!shootingnow) {
 					var wasrunning = stop(), node;
 					if (node = document.getElementById("ctrl"))
-						node.innerHTML = wasrunning ? "Start" : "Stop";
+						node.innerHTML = wasrunning ? "<font size='+6'>Start</font>" : "<font size='+6'>Stop</font>";
 					if (!wasrunning)
 						shoot();
 				}
@@ -66,9 +95,9 @@ Info : http://www.dronkert.net/rpi/webcam.html
 		<img id="view" src="webcam.php" alt="[webcam]" title="AllSky" />
 		<font size="+6"><font face="verdana">
 		<script>
-		    document.write('<a href="' + document.referrer + '"style="color: #fcba03" + font size="+6" + font face="verdana">&laquo; Back</a>............................');
-		</script></font>
+//		    document.write('<a href="' + document.referrer + '"style="color: #fcba03" + font size="+6" + font face="verdana">&laquo; Back</a>...........................');
+		    document.write('<a href="' + document.referrer + '"style="color: #fcba03" + font size="+6" + font face="verdana">&laquo; Back</a>.....<font size="4"><font color="86878a">Next image in: $Concat seconds</font><font color="black"><font size="+6">.........</font>');
+  		</script></font>
 		<a id="ctrl" href="#" onclick="toggle()"><font size="+6"><font face="verdana">Stop</font></a>
 	</body>
-
 </html>

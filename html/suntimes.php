@@ -23,15 +23,17 @@ $NSet=substr($mtimes,36,5);
 $ASet=substr($mtimes,42,5);
 $VDay=substr($mtimes,52,5);
 $VNight=substr($mtimes,58,5);
-
 $VidAM=substr($mtimes,58,5);
 $VidPM=substr($mtimes,58,5);
 $CamAM=substr($mtimes,64,5);
 $CamPM=substr($mtimes,70,5);
+$Concat=substr($mtimes,76,2);
+$ShotTime=substr($mtimes,79,1);
 
 echo '<table>
 <table style="width:100%; border: 1px solid black">
     <tbody>
+        <tr>
         <tr>
             <td align="left"><font color="a9f0a5"><font size="5"><b><u>Sun Position</u></b></font></td>
             <td><font color="a9f0a5"><font size="5"><b><u>Angle</font></u></b></td>

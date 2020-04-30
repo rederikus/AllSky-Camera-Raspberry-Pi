@@ -2,7 +2,7 @@
 echo file_get_contents("html/header.html");
 
 echo '<body style="background-color:black"><font size="6"><font face="verdana">';
-echo "<font color='33FF5B'><u>Raspberry Pi AllSky Camera v1.06</u><font size='2'><br>";
+echo "<font color='33FF5B'><u>Raspberry Pi AllSky Camera v1.08</u><font size='2'><br>";
 echo "<font color='white'><br></font>";
 $handle = fopen("/sys/bus/w1/devices/w1_bus_master1/w1_master_slaves", "r");
 if ($handle) {
