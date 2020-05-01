@@ -129,8 +129,8 @@ SSetVid=-00:00 # Offset advance or delay for the Video Day / Night switch.
 # For the night camera mode
 #       HH:MM
 twiSet=-00:00 # Advance or delay when the camera switches from day to night.
-twiSetP=-00:01 # Camera switch time.  Needs to be at least 1 minute EARLIER than the Video switch time.
-twiSetVid=-00:03 # Offset advance or delay for the Video Day / Night switch.
+twiSetP=-00:09 # Camera switch time.  Needs to be at least 1 minute EARLIER than the Video switch time.
+twiSetVid=-00:12 # Offset advance or delay for the Video Day / Night switch.
 
 # Number of minutes  between movie frame concatenation.  Default here is 10 [minutes]
 concat=10
@@ -321,7 +321,7 @@ echo "#">>$HOME/webcamcron
 echo "# DAY TIME fill in raspistill image grab AFTER $((amtH)) AM until hour as needed.">>$HOME/webcamcron
 # Strip leading zero
 amtMx=$(echo $amtM | sed 's/^0*//')
-for (( d = $amtMx ; d <= 60 ; d = d + $shotD )); do
+for (( d = $amtMx ; d <=60 ; d = d + $shotD )); do
   if [[ "$d" -lt $amtMx+$shotD ]]; then
     continue
   fi
