@@ -321,6 +321,10 @@ echo "#">>$HOME/webcamcron
 echo "# DAY TIME fill in raspistill image grab AFTER $((amtH)) AM until hour as needed.">>$HOME/webcamcron
 # Strip leading zero
 amtMx=$(echo $amtM | sed 's/^0*//')
+# If the incoming variable was 00 the it will now be nothing at all so make it "0".
+if [[ ! $amtMx ]]; then
+         amtMx=0
+fi
 for (( d = $amtMx ; d <=60 ; d = d + $shotD )); do
   if [[ "$d" -lt $amtMx+$shotD ]]; then
     continue
@@ -337,6 +341,10 @@ echo "#">>$HOME/webcamcron
 echo "# DAY TIME fill in raspistill image grab until NIGHT Camera Mode,  as needed.">>$HOME/webcamcron
 # Strip leading zero
 nigMx=$(echo $nigM | sed 's/^0*//')
+# If the incoming variable was 00 the it will now be nothing at all so make$
+if [[ ! $nigMx ]]; then
+         nigMx=0
+fi
 for (( d = 0 ; d <=$nigMx-$shotD ; d = d + $shotD )); do
   if [[ "$d" -lt $shotD ]]; then
     continue
@@ -365,6 +373,10 @@ echo "#">>$HOME/webcamcron
 #echo "# NIGHT TIME fill in every */$shotN minutes raspistill image grab AFTER start until hour as needed.">>$HOME/webcamcron
 # Strip leading zero
 #amtMy=$(echo $amtM | sed 's/^0*//')
+# If the incoming variable was 00 the it will now be nothing at all so make$
+#if [[ ! $amtMy ]]; then
+#         amtMy=0
+#fi
 #for (( y = $amtMy ; y <= 60 ; y = y + $shotN )); do
 #  if [[ "$y" -lt $amtMy+$shotN ]]; then
 #    continue
@@ -379,6 +391,10 @@ echo "#">>$HOME/webcamcron
 echo "# NIGHT TIME fill in raspistill image grab as needed.">>$HOME/webcamcron
 # Strip leading zero
 nigMx=$(echo $nigM | sed 's/^0*//')
+# If the incoming variable was 00 the it will now be nothing at all so make$
+if [[ ! $nigMx ]]; then
+         nigMx=0
+fi
 for (( n = $nigMx ; n <= 60 ; n = n + $shotN )); do
   if [[ "$n" -lt $nigMx+$shotN ]]; then
     continue
@@ -411,6 +427,10 @@ echo "# Provide fill-in image concatenation if / as neccessary to keep the Dayti
 
 # Strip leading zero
 amtMxcam=$(echo $amtMVid | sed 's/^0*//')
+# If the incoming variable was 00 the it will now be nothing at all so make$
+if [[ ! $amtMxcam ]]; then
+         amtMxcam=0
+fi
 for (( cD = $amtMxcam ; cD <= 60 ; cD = cD + $concat )); do
   if [[ "$cD" -lt $amtMxcam+$concat ]]; then
     continue
@@ -434,6 +454,10 @@ echo "#">>$HOME/webcamcron
 echo "# Fill in conatenation until [ $((nigH+1)):00 ] as needed.">>$HOME/webcamcron
 # Strip leading zero
 nigMVidFN=$(echo $nigMVid | sed 's/^0*//')
+# If the incoming variable was 00 the it will now be nothing at all so make$
+if [[ ! $nigMVidFN ]]; then
+         nigMVidFN=0
+fi
 for (( d = 0 ; d <=$nigMVidFN ; d = d + $concat )); do
    if [[ "$d" -lt $concat ]]; then
      continue
@@ -448,6 +472,10 @@ echo "#">>$HOME/webcamcron
 echo "# Provide fill-in image concatenation if / as neccessary to keep the Nighttime */$concat minute interval.">>$HOME/webcamcron
 # Strip leading zero
 nigMxcam=$(echo $nigMVid | sed 's/^0*//')
+# If the incoming variable was 00 the it will now be nothing at all so make$
+if [[ ! $nigMxcam ]]; then
+         nigMxcam=0
+fi
 for (( cN = $nigMxcam ; cN <= 60 ; cN = cN + $concat )); do
   if [[ "$cN" -lt $nigMxcam+$concat ]]; then
     continue
