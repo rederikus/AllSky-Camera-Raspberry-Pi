@@ -110,7 +110,7 @@ lon=80.99140269W # This MUST be 12 bytes long
 #       HH:MM
 twiRise=-00:10 # Advance or delay the displayed time.
 twiRiseP=-00:08 # Camera switch time.  Needs to be at least 1 minute EARLIER than the Video switch time.
-twiRiseVid=-00:05 # Offset advance or delay for the Video Day / Night switch.
+twiRiseVid=-00:03 # Offset advance or delay for the Video Day / Night switch.
 
 # Shifts camera mode time at Morning Twilight /  Day
 #     HH:MM Not used anymore
@@ -369,24 +369,6 @@ echo "*/$shotN $((nigH+1))-23 * * * $EXE $Nighttime">>$HOME/webcamcron
 echo "*/$shotN 0-$((amtH-1)) * * * $EXE $Nighttime">>$HOME/webcamcron
 echo "#">>$HOME/webcamcron
 
-# raspistill time fill in when Night time needs it
-#echo "# NIGHT TIME fill in every */$shotN minutes raspistill image grab AFTER start until hour as needed.">>$HOME/webcamcron
-# Strip leading zero
-#amtMy=$(echo $amtM | sed 's/^0*//')
-# If the incoming variable was 00 the it will now be nothing at all so make$
-#if [[ ! $amtMy ]]; then
-#         amtMy=0
-#fi
-#for (( y = $amtMy ; y <= 60 ; y = y + $shotN )); do
-#  if [[ "$y" -lt $amtMy+$shotN ]]; then
-#    continue
-#  fi
-#  if [[ "$y" -lt 60 ]]; then
-#     echo "$y $((nigH)) * * * $EXE $Nighttime">>$HOME/webcamcron
-#fi
-#done
-#echo "#">>$HOME/webcamcron
-
 # Night time raspistill fill in
 echo "# NIGHT TIME fill in raspistill image grab as needed.">>$HOME/webcamcron
 # Strip leading zero
@@ -423,7 +405,7 @@ echo "*/$concat $((amtHVid+1))-$((nigHVid-1)) * * * $HOME/pics/concatday.sh> /de
 echo "#">>$HOME/webcamcron
 
 # Write the DAY fill-in variables
-echo "# Provide fill-in image concatenation if / as neccessary to keep the Daytime */$concat minute interval.">>$HOME/webcamcron
+echo "# Provide fill-in image concatenation if / as neccessary from [ $amtHVid:$amtHVid ] to keep the Daytime */$concat minute interval until [ $(( amtHVid+1 )):00 ].">>$HOME/webcamcron
 
 # Strip leading zero
 amtMxcam=$(echo $amtMVid | sed 's/^0*//')
@@ -451,7 +433,8 @@ echo "*/$concat $((nigHVid+1))-23 * * * $HOME/pics/concatnight.sh> /dev/null 2>&
 echo "*/$concat 0-$((amtHVid-1)) * * * $HOME/pics/concatnight.sh> /dev/null 2>&1">>$HOME/webcamcron
 echo "#">>$HOME/webcamcron
 
-echo "# Fill in conatenation until [ $((nigH+1)):00 ] as needed.">>$HOME/webcamcron
+# Write the NIGHT fill-in variables
+echo "# Provide fill-in image concatenation if / as neccessary from [ $nigHVid:$nigMVid ] to keep the Nighttime */$concat minute interval until [ $(( nigHVid+1 )):00 ].">>$HOME/webcamcron
 # Strip leading zero
 nigMVidFN=$(echo $nigMVid | sed 's/^0*//')
 # If the incoming variable was 00 the it will now be nothing at all so make$
@@ -469,7 +452,7 @@ done
 echo "#">>$HOME/webcamcron
 
 # Write the NIGHT fill-in variables
-echo "# Provide fill-in image concatenation if / as neccessary to keep the Nighttime */$concat minute interval.">>$HOME/webcamcron
+echo "# Provide fill-in image concatenation if / as neccessary from [ $nigHVid:$nigMVid ] to keep the Nighttime */$concat minute interval until [ $(( nigHVid+1 )):00 ].">>$HOME/webcamcron
 # Strip leading zero
 nigMxcam=$(echo $nigMVid | sed 's/^0*//')
 # If the incoming variable was 00 the it will now be nothing at all so make$
