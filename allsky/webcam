@@ -5,13 +5,12 @@
 # RASPBERRY PI ALLSKY CAMERA
 # --------------------------
 # Designed principally to take night time images of the whole sky once every few minutes, it has been expanded
-# to take allsky images during the daytime too and to make a 30 second movie of the whole (well 180 degrees)
-# of both day and night.  To do this it needs to take account of both varying light conditiomns for daytime, twilight
-# and night as well as the daily changes in day , twilight and night times for and given location on the earth.
+# to take allsky images during the daytime too and to make a 30 second movie of the visible sky both day and night.  
+# To do this it needs to take account of varying light conditions for day and night times for any location on earth.
 #
-# This is webcam a bash script file.  It's purpose is to produce a crontab file that runs in /var/spool/crontabs/root
-# that controls a webcam that takes a still image of the sky every 2 minutes. The webcam runs 24/7 and needs to
-# have different exposure setting for Twilight, Daytime and night time images.
+# This is webcam a bash script file.  It's purpose is to produce a crontab file that runs in /var/spool/crontabs/root.
+# This controls a Raspberry Pi Camera that takes a still image of the sky every 2 minutes during the day and every 
+# 4 minutes at night. The webcam runs 24/7 and needs to different exposure settings for Day and Night time images.
 #
 # Additionally webcam makes two movies per day of for daytme and one for night.  These movies and the camera exposures
 # are governed by the daily sunrise and sunset times.  Further civil twilight is used to represent twilight.
@@ -26,10 +25,8 @@
 # So far Civil Twilight seems to work best for the Raspi-Pi 2 Camera that uses a Sony IMX219 colour sensor.
 #
 # Given that the above times change everyday for every latitude new times are needed everyday for:
-# - Dawn Twilight
-# - Daylight
+# - Morning Twilight
 # - Evening Twilight
-# - Night
 #
 # These times also govern the time when the day and night movies start and end.
 #
