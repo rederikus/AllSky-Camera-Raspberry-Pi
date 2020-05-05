@@ -34,6 +34,7 @@ while [ ! -f /home/allsky/pics/webcam-*.jpg  ]; do sleep 1; done
 # Make the new Day movie.
 # Remove yesterday's Day movie.
 /bin/rm /home/allsky/pics/movieday.mp4
+/bin/sleep 5
 
 # Make a new movie of this last period.
 /usr/bin/ffmpeg -framerate 5 -pix_fmt yuv420p -pattern_type  glob -i '/home/allsky/pics/webcam-*.jpg' -c:v libx264 /home/allsky/pics/movieday.mp4

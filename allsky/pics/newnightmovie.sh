@@ -34,6 +34,7 @@ while [ ! -f /home/allsky/pics/webcam-*.jpg  ]; do sleep 1; done
 # Now make the new night video.
 # Remove yesterday's Night movie.
 /bin/rm /home/allsky/pics/movienight.mp4
+/bin/sleep 5
 
 # Check to see if there are any .jpg files with which to make a new movie.  If not, get a one.
 if /bin/ls /home/allsky/pics/webcam-*.jpg 1> /dev/null 2>&1; then
