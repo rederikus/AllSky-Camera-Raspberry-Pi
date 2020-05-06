@@ -2,10 +2,11 @@
 # File newnightmovie.sh
 
 # Remove any files that may be too small as they were grabbed at changeover that may be incomplete.
-/usr/bin/find . -name "/home/allsky/pics/webcam-*.jpg" -type 'f' -size -110k -delete
+/usr/bin/find . -wholename "/home/allsky/pics/webcam-*.jpg" -type 'f' -size -110k -delete
 
-# Check the essential presence of raspistill webcam-*.jpg file(s).  If none, wait for one to be created.
+# Check the essential presence of raspistill webcam-*.jpg file(s).  If none, wa$
 while [ ! -f /home/allsky/pics/webcam-*.jpg  ]; do sleep 1; done
+sleep 5
 
 # Run a DAY concatonate to add any last remaining still images to the Day video.
 # This means that the last few still image(s) of the Day Video will be at the start of the Night video.
@@ -29,12 +30,15 @@ while [ ! -f /home/allsky/pics/webcam-*.jpg  ]; do sleep 1; done
 /bin/rm /home/allsky/pics/temp*.mp4
 /bin/rm /home/allsky/pics/*.ts
 /bin/cp /home/allsky/pics/webcam-*.jpg /home/allsky/pics/night/
-#/bin/rm /home/allsky/pics/webcam-*.jpg
+/bin/rm /home/allsky/pics/webcam-*.jpg
+
+# Check the essential presence of raspistill webcam-*.jpg file(s).  If none, wait for one to be created.
+while [ ! -f /home/allsky/pics/webcam-*.jpg  ]; do sleep 1; done
+sleep 5
 
 # Now make the new night video.
 # Remove yesterday's Night movie.
 /bin/rm /home/allsky/pics/movienight.mp4
-/bin/sleep 5
 
 # Check to see if there are any .jpg files with which to make a new movie.  If not, get a one.
 if /bin/ls /home/allsky/pics/webcam-*.jpg 1> /dev/null 2>&1; then
