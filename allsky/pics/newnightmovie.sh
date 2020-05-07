@@ -6,7 +6,7 @@
 
 # Check the essential presence of raspistill webcam-*.jpg file(s).  If none, wa$
 while [ ! -f /home/allsky/pics/webcam-*.jpg  ]; do sleep 1; done
-sleep 5
+/bin/sleep 5
 
 # Run a DAY concatonate to add any last remaining still images to the Day video.
 # This means that the last few still image(s) of the Day Video will be at the start of the Night video.
@@ -34,21 +34,11 @@ sleep 5
 
 # Check the essential presence of raspistill webcam-*.jpg file(s).  If none, wait for one to be created.
 while [ ! -f /home/allsky/pics/webcam-*.jpg  ]; do sleep 1; done
-sleep 5
+/bin/sleep 5
 
 # Now make the new night video.
 # Remove yesterday's Night movie.
 /bin/rm /home/allsky/pics/movienight.mp4
-
-# Check to see if there are any .jpg files with which to make a new movie.  If not, get a one.
-if /bin/ls /home/allsky/pics/webcam-*.jpg 1> /dev/null 2>&1; then
-    echo "webcam-*.jpg files do exist"> /dev/null 2>&1
-else
-    echo "files do not exist"> /dev/null 2>&1
-
-    # Copy the latest file from day to ../pics.
-    /bin/cp $(/bin/ls -t /home/allsky/pics/day/* | /usr/bin/head -1) /home/allsky/pics
-fi
 
 # Make a new movie of this last period.
 /usr/bin/ffmpeg -framerate 5 -pix_fmt yuv420p -pattern_type  glob -i '/home/allsky/pics/webcam-*.jpg' -c:v libx264 /home/allsky/pics/movienight.mp4

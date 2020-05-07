@@ -6,7 +6,7 @@
 
 # Check the essential presence of raspistill webcam-*.jpg file(s).  If none, wait for one to be created.
 while [ ! -f /home/allsky/pics/webcam-*.jpg  ]; do sleep 1; done
-sleep 5
+/bin/sleep 5
 
 # Run a NIGHT concatonate to add any last remaining still images to the Night video.
 # This means that the last few still image(s) of the night Nideo will be at the start of the Day video.
