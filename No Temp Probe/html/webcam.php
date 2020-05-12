@@ -99,8 +99,13 @@ if ($t_cam > $t_buf && $im = @imagecreatefromjpeg($cam)) {
 	$black = @imagecolorallocate($im, 0, 0, 0);
 	$white = @imagecolorallocate($im, 255, 255, 255);
 	$font = 4;  // Small font
+//	$text = date(' D d M Y H:i:s', $t_cam)."          Outdoor Temp: $celsius$degc / $fahrenheit$degf          CPU Temp: $temp$degc";
+//	$text = substr(fgets($myfile), -2) . date(' | D d M Y H:i', $t_cam)." | $sunset | Outdoor Temp: $celsius$degc / $fahrenheit$degf | CPU Temp: $temp$degc";
+
+// With temperature sesnsor
 //	$text = $cstate . date(' | D d M Y H:i', $t_cam)." | $sunset | Outdoor Temp: $celsius$degc / $fahrenheit$degf | CPU Temp: $temp$degc";
-	$text = $cstate . date(' | D d M Y H:i', $t_cam)." | $sunset | CPU Temp: $temp$degc";
+// No temperatture sesnsor
+	$text = $cstate . date(' | D d M Y H:i', $t_cam)." | $sunset |CPU Temp: $temp$degc";
         @imagestring($im, $font, 2, 1, $text, $black);  // Bottom-right shadow
 	@imagestring($im, $font, 1, 0, $text, $white);
 	@imagejpeg($im, $buf);  // Save to disk
