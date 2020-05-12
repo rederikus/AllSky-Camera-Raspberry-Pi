@@ -10,7 +10,6 @@
 
 <?php
 // Get the Day and Night movie start & end times from /home/allsky/stimes
-
 $myfile = fopen("/home/allsky/daily", "r") or die("Unable to open file!");
 $mtimes=fread($myfile,filesize("/home/allsky/daily"));
 
@@ -26,7 +25,9 @@ $VDay=substr($mtimes,52,5);
 $VNight=substr($mtimes,58,5);
 
 fclose($myfile);
+// ******************************************
 ?>
+
 	<font color='33FF5B'><font size="6"><font face="verdana">
 	<u><b>Raspberry&nbsp;&nbsp;Pi&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;AllSky&nbsp;&nbsp;Camera</b</u><br>
 	</font>
@@ -48,6 +49,7 @@ fclose($myfile);
 			<font size="3">
         </header>
         <div id="main-contents"><font size="+2">
+
 <?php
 // Get the CPU temperature
 $esc = chr(27);
@@ -56,7 +58,8 @@ $CPUtemp = fgets($f);
 $CPUtemp = round($CPUtemp / 1000, PHP_ROUND_HALF_UP); //round the results
 fclose($f);
 
-// Get the outside temperature
+// Get the outside temperature.  Comment this section out if you are not 
+// using a DS18B20 sensor
 $handle = fopen("/sys/bus/w1/devices/w1_bus_master1/w1_master_slaves", "r");
 if ($handle) {
     while (($sensors = fgets($handle)) !== false) {
@@ -79,7 +82,9 @@ if ($handle) {
 } else {
     print "No sensors found!";
 }
+// **********************************************
 ?>
+
         </div>
         <footer>
 		<font color='white'><font size="+3">

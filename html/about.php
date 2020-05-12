@@ -2,8 +2,10 @@
 echo file_get_contents("html/header.html");
 
 echo '<body style="background-color:black"><font size="6"><font face="verdana">';
-echo "<font color='33FF5B'><u>Raspberry Pi AllSky Camera v1.08</u><font size='2'><br>";
+echo "<font color='33FF5B'><u>Raspberry Pi AllSky Camera v1.09</u><font size='2'><br>";
 echo "<font color='white'><br></font>";
+
+// Get the outside temperature
 $handle = fopen("/sys/bus/w1/devices/w1_bus_master1/w1_master_slaves", "r");
 if ($handle) {
     while (($sensors = fgets($handle)) !== false) {
@@ -28,6 +30,7 @@ if ($handle) {
     print "No sensors found!";
 }
 
+// Get times feom the daily file
 $myfile = fopen("/home/allsky/daily", "r") or die("Unable to open file!");
 $mtimes=fread($myfile,filesize("/home/allsky/daily"));
 echo "<font color='white'>";
@@ -59,7 +62,8 @@ echo "- Videos updated every <font color='white'>$Concat<font color='yellow'> mi
 echo "<font size='0'><br></font>";
 echo "- Camera Mode: <font color='b3b5b4'>D</font><font color='yellow'>=Day, </font><font color='b3b5b4'>N</font><font color='yellow'>=Night<br>shown in image top left.<font size='0'><br>";
 echo "<br></font>";
-echo "- Camera Mode timing is adjustable<br>and may differ from time shown in-image.<font size='0'><br>";
+echo "- Camera Mode timing is adjustable<br>and may differ from time shown in-image.<font size='0'><br><br></font>";
+echo "- GPS co-ordinates must be manually set.<font size='0'><br>";
 echo "</font><font color='white'>";
 echo '<font size="+3">';
 echo"<font color='white'>____________________________________________</font><br>";

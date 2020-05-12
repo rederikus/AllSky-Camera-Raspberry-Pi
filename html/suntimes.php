@@ -1,13 +1,23 @@
 <?php
+// ***************************************************************
+// Get the local gps coordinates
+$gpsfile = fopen("/home/allsky/gps", "r") or die("Unable to open file!");
+$gps=fread($gpsfile,filesize("/home/allsky/gps"));
+$lat=substr($gps,0,6);
+$lon=substr($gps,7,6);
+fclose($gpsfile);
+// ***************************************************************
+
 echo '<body style="background-color:black"><font size="+3">';
 echo '<font face="Roboto Mono">';
 echo '<font face="verdana">';
 echo "<font color='33FF5B'><u>Sun Times - Camera & Video Modes</font></u><br>";
-echo "<font size='0'><br><font size='+2'><font color='94bceb'><i>" . date('D d M Y') . "</b></font></i><br>";
+echo "<font size='0'><br><font size='+2'><font color='94bceb'><i>" . date('D d M Y') . "</b></font><font color='gray'><font size='4'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GPS: $lat, $lon </font></i><br>";
 echo "<header('Content-Type: text/plain')>";
 echo '<font color="white">';
 
 // ***************************************************************
+// Get the various daily times
 $myfile = fopen("/home/allsky/daily", "r") or die("Unable to open file!");
 $mtimes=fread($myfile,filesize("/home/allsky/daily"));
 echo "<font color='white'>";
@@ -23,17 +33,15 @@ $NSet=substr($mtimes,36,5);
 $ASet=substr($mtimes,42,5);
 $VDay=substr($mtimes,52,5);
 $VNight=substr($mtimes,58,5);
+
 $VidAM=substr($mtimes,58,5);
 $VidPM=substr($mtimes,58,5);
 $CamAM=substr($mtimes,64,5);
 $CamPM=substr($mtimes,70,5);
-$Concat=substr($mtimes,76,2);
-$ShotTime=substr($mtimes,79,1);
 
 echo '<table>
 <table style="width:100%; border: 1px solid black">
     <tbody>
-        <tr>
         <tr>
             <td align="left"><font color="a9f0a5"><font size="5"><b><u>Sun Position</u></b></font></td>
             <td><font color="a9f0a5"><font size="5"><b><u>Angle</font></u></b></td>
@@ -124,8 +132,10 @@ echo '<font color="f78fef"><font size="3">Camera Mode: N=Night, D=Day</font><br>
 
 // ***************************************************************
 
-echo '<a href="https://www.timeanddate.com/sun/usa/charlotte/"  style="color: #fcba03" target="_blank">True Sun Times</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+echo '<a href="https://www.timeanddate.com/sun/usa/charlotte/"  style="color: #fcba03" target="_blank">True Sun Times</a>&nbsp;&nbsp;&nbsp;&nbsp;';
 echo '<a href="https://www.astrospheric.com/" style="color: #fcba03" target="_blank">Astronomer&apos;s Weather</a><br>';
+echo '<a href="https://cdn.star.nesdis.noaa.gov//GOES16/ABI/SECTOR/EUS/GEOCOLOR/GOES16-EUS-GEOCOLOR-1000x1000.gif" style="color: #fcba03" target="_blank">NOAA VIS Image</a>&nbsp;&nbsp;';
+echo '<a href="https://cdn.star.nesdis.noaa.gov//GOES16/ABI/SECTOR/EUS/13/GOES16-EUS-13-1000x1000.gif" style="color: #fcba03" target="_blank">NOAA IR Image</a><br>';
 
 echo"<font color='white'>____________________________________________</font><br>";
 
