@@ -35,6 +35,9 @@ while [ ! -f /home/allsky/pics/webcam-*.jpg  ]; do sleep 1; done
 # Check the essential presence of raspistill webcam-*.jpg file(s).  If none, wait for one to be created.
 while [ ! -f /home/allsky/pics/webcam-*.jpg  ]; do sleep 1; done
 /bin/sleep 5
+# Do it again just in case concatxxx ran meanwhile.
+while [ ! -f /home/allsky/pics/webcam-*.jpg  ]; do sleep 1; done
+/bin/sleep 5
 
 # Make the new Day movie.
 # Remove yesterday's Day movie.

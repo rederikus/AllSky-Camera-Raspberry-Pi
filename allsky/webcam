@@ -54,7 +54,7 @@
 # webcam - this file.  The core of the system
 # daily - stores the daily suntimes and other timing data elements for use by the system and  webpage files
 # state - stores a single bye, one letter either T, D or N.  Used only by webcam.php to display the camera state on screen
-# gps - stores the current  Latitude and Longitude location.  Currently not used for anything else.
+# gps - stores the current  Latitude and Longitude location.  Provides current gps cordinates to /var/www/html/suntimes.php.
 # daily_times.txt - al list of  today's suntimes.  JUst used for reference with cat daily_times.xtx
 #
 # In $HOME/pics
@@ -88,11 +88,10 @@ SCR="webcam"   # script / service name
 HOME="/home/allsky" # Working directory
 
 # *** S E T U P **********************************************************************
-# Setup the Latitude and Longitude of your site
+# Set the Latitude and Longitude of your site
 # Location
-#...123456789012
-lat=35.07799110N # This MUST be 12 bytes long
-lon=80.99140269W # This MUST be 12 bytes long
+#lat=[ your decimal DD.MMMMMMN/S Latitude here ] # my site
+#lon=[ your decimal DD.MMMMMME/W Longitude here ] # my site
 
 # Offsets advance or retard the Day or Twilight times in sunwait.  Anything in between is night
 # Offsets.  May be + or - Positive numbers move twilight or sunrise/sunset closer to noon.
@@ -233,12 +232,20 @@ twiHVid=${sSetVid:0:2}; twiMVid=${sSetVid:3:2}
 nigH=${evetwi:0:2}; nigM=${evetwi:3:2} # Night
 nigHVid=${evetwiVid:0:2}; nigMVid=${evetwiVid:3:2}
 
+# Truncate any entered Latitude and Longitude length strings to 2 places plus North / South, East / West.
+# Latitude
+latlength=${#lat}; latNS=$(($latlength-1)); latweb=${lat:0:$latNS}
+latNS=${lat:latNS:1}; latweb=$(/usr/bin/printf "%.2f\n" "$latweb")
+# Longitude
+lonlength=${#lon}; lonEW=$(($lonlength-1)); lonweb=${lon:0:$lonEW}
+lonEW=${lon:lonEW:1}; lonweb=$(/usr/bin/printf "%.2f\n" "$lonweb")
+
 # Write the sun times to the daily file for use by the web pages.
 echo -e $AstroRiseReal"\n"$NauticalRiseReal"\n"$CivilRiseReal"\n"$SunRiseReal"\n"$SunSetReal"\n"$CivilSetReal"\n"$NauticalSetReal"\n"$AstroSetReal>$HOME/daily
 # Write the shot times to the daily file
 echo -e $shotD"\n"$shotN"\n"$twilightRiseVid"\n"$twilightSetVid"\n"$CameraAM"\n"$CameraPM"\n"$concat>>$HOME/daily
-# Write the gps coorinates to the daily file
-#echo -e $lat"\n"$lon>>$HOME/daily
+# Write the gps coorinates to the gps file
+echo -e $latweb$latNS"\n"$lonweb$lonEW>$HOME/gps
 
 # Kill any running raspistill jobs
 if pgrep raspistill
@@ -304,7 +311,7 @@ echo "">>$HOME/webcamcron
 
 echo "# ***  RASPISTILL S T I L L   I M A G E   S H O T S   F O R  D A Y   A N D   N I G H T">>$HOME/webcamcron
 echo "# *** DAYTIME STILL IMAGE SHOTS">>$HOME/webcamcron
-echo "# DAYTIME CAMERA MODE [ $amtH:$amtM ] raspistill image grab every */$shotD minutes.">>$HOME/webcamcron
+echo "# DAYTIME CAMERA MODE [ $amtH:$amtM - $nigH:$nigM ] raspistill image grab every */$shotD minutes.">>$HOME/webcamcron
 echo "$amtM $amtH * * * echo -n 'D'>$HOME/state">>$HOME/webcamcron
 echo "$amtM $amtH * * * echo -e $shotD>>$HOME/daily">>$HOME/webcamcron
 echo "$amtM $amtH * * * $EXE $Daytime">>$HOME/webcamcron
@@ -354,7 +361,7 @@ for (( d = 0 ; d <=$nigMx-$shotD ; d = d + $shotD )); do
 done
 echo "">>$HOME/webcamcron
 
-echo "# *** NIGHT TIME CAMERA MODE [ $nigH:$nigM ] raspistill image grab every */$shotN minutes.">>$HOME/webcamcron
+echo "# *** NIGHT TIME CAMERA MODE [ $nigH:$nigM - $amtH:$amtM$ ] raspistill image grab every */$shotN minutes.">>$HOME/webcamcron
 echo "$nigM $nigH * * * echo -n 'N'>$HOME/state">>$HOME/webcamcron
 echo "$nigM $nigH * * * echo -e $shotN>>$HOME/daily">>$HOME/webcamcron
 echo "$nigM $nigH * * * $EXE $Nighttime">>$HOME/webcamcron
@@ -392,7 +399,7 @@ echo "# Copy the images every */$cap minutes.   This for both Day and Night Vide
 echo "*/$cap * * * * $HOME/pics/copypic.sh> /dev/null 2>&1">>$HOME/webcamcron
 echo "">>$HOME/webcamcron
 
-echo "# ***  D A Y   V I D E O  [ $amtHVid:$amtMVid ]">>$HOME/webcamcron
+echo "# ***  D A Y   V I D E O  [ $amtHVid:$amtMVid - $nigHVid:$nigMVid ]">>$HOME/webcamcron
 echo "# Make a new Day time VIDEO">>$HOME/webcamcron
 echo "$amtMVid $amtHVid * * * $HOME/pics/newdaymovie.sh> /dev/null 2>&1">>$HOME/webcamcron
 echo "#">>$HOME/webcamcron
@@ -422,7 +429,7 @@ for (( cD = $amtMxcam ; cD <= 60 ; cD = cD + $concat )); do
 done
 echo "">>$HOME/webcamcron
 
-echo "# ***  N I G H T   V I D E O  [ $nigHVid:$nigMVid ]">>$HOME/webcamcron
+echo "# ***  N I G H T   V I D E O  [ $nigHVid:$nigMVid - $amtHVid:$amtMVid ]">>$HOME/webcamcron
 echo "# Make a new Night time Video">>$HOME/webcamcron
 echo "$nigMVid $nigHVid * * * $HOME/pics/newnightmovie.sh> /dev/null 2>&1">>$HOME/webcamcron
 echo "# Regular $concat minute concatenation.">>$HOME/webcamcron

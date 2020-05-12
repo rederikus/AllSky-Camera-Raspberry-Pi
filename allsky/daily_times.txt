@@ -1,25 +1,25 @@
  
 E V E N T                                      HH:MM OFFSET
 ---------------------------------------------  ----- ------
-Astronomical Rise (18 degrees below horizon):  04:57 -00:10
-Astronomical Rise (Real)                    :  05:07
-Nautical Rise (12 degrees below horizon)    :  05:30 -00:10
-Nautical Rise (Real)                        :  05:40
-Civil Rise (6 degrees below horizon)        :  06:02 -00:10
-Civil Rise (Real)                           :  06:12
-CAMERA switches from Night to Day           :  06:04 -00:08
-VIDEO switches from Night to Day            :  06:07 -00:05
-Sunrise (0 degrees below horizon)           :  06:38 00:00
-Sunrise (Real)                              :  06:38
-Sunset (0 degrees below horizon)            :  20:05 00:00
-Sunset (Real)                               :  20:05
-Civil Set (6 degrees below horizon)         :  20:39 -00:08
-Civil Set (Real)                            :  20:31
-CAMERA switches from Day to Night           :  20:47 -00:16
-VIDEO switches from Day to Night            :  20:50 -00:19
-Nautical Set (12 degrees below horizon)     :  21:10 -00:08
-Nautical Set (Real)                         :  21:02
-Astronomical Set (18 degrees below horizon) :  21:44 -00:08
-Astronomical Set (Real)                     :  21:36
+Astronomical Rise (18 degrees below horizon):  04:40 -00:10
+Astronomical Rise (Real)                    :  04:50
+Nautical Rise (12 degrees below horizon)    :  05:16 -00:10
+Nautical Rise (Real)                        :  05:26
+Civil Rise (6 degrees below horizon)        :  05:49 -00:10
+Civil Rise (Real)                           :  05:59
+CAMERA switches from Night to Day           :  05:51 -00:08
+VIDEO switches from Night to Day            :  05:56 -00:03
+Sunrise (0 degrees below horizon)           :  06:25 00:00
+Sunrise (Real)                              :  06:25
+Sunset (0 degrees below horizon)            :  20:15 00:00
+Sunset (Real)                               :  20:15
+Civil Set (6 degrees below horizon)         :  20:41 -00:00
+Civil Set (Real)                            :  20:41
+CAMERA switches from Day to Night           :  20:50 -00:09
+VIDEO switches from Day to Night            :  20:53 -00:12
+Nautical Set (12 degrees below horizon)     :  21:14 -00:00
+Nautical Set (Real)                         :  21:14
+Astronomical Set (18 degrees below horizon) :  21:50 -00:00
+Astronomical Set (Real)                     :  21:50
  
-Sun 26 Apr 2020 09:47:40 PM EDT
+Fri May  8 08:44:08 EDT 2020
