@@ -134,8 +134,8 @@ echo '<font color="f78fef"><font size="3">Camera Mode: N=Night, D=Day</font><br>
 
 echo '<a href="https://www.timeanddate.com/sun/usa/charlotte/"  style="color: #fcba03" target="_blank">True Sun Times</a>&nbsp;&nbsp;&nbsp;&nbsp;';
 echo '<a href="https://www.astrospheric.com/" style="color: #fcba03" target="_blank">Astronomer&apos;s Weather</a><br>';
-echo '<a href="https://cdn.star.nesdis.noaa.gov//GOES16/ABI/SECTOR/EUS/GEOCOLOR/GOES16-EUS-GEOCOLOR-1000x1000.gif" style="color: #fcba03" target="_blank">NOAA VIS Image</a>&nbsp;&nbsp;';
-echo '<a href="https://cdn.star.nesdis.noaa.gov//GOES16/ABI/SECTOR/EUS/13/GOES16-EUS-13-1000x1000.gif" style="color: #fcba03" target="_blank">NOAA IR Image</a><br>';
+echo '<body style="background-color:black"><a href="https://cdn.star.nesdis.noaa.gov//GOES16/ABI/SECTOR/EUS/GEOCOLOR/GOES16-EUS-GEOCOLOR-1000x1000.gif" style="color: #fcba03" target="_blank">NOAA VIS Image</a>&nbsp;&nbsp;';
+echo '<body style="background-color:black"><a href="https://cdn.star.nesdis.noaa.gov//GOES16/ABI/SECTOR/EUS/13/GOES16-EUS-13-1000x1000.gif" style="color: #fcba03" target="_blank">NOAA IR Image</a><br>';
 
 echo"<font color='white'>____________________________________________</font><br>";
 
