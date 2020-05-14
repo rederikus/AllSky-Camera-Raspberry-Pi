@@ -89,8 +89,10 @@ Install the software
 Make a directory in /home called /home/allsky
 mkdir /home/allsky
 
-Make a directory called /home/allsky/pics
+Make a directory called /home/allsky/pics and for the day and night images
 mkdir /home/allsky/pics
+mkdir /home/allsky/pics/day
+mkdir /home/allsky/pics/night
 
 Set the file permissions
 ------------------------
