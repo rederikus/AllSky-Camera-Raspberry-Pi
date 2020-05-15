@@ -28,7 +28,7 @@ if ($handle) {
     print "No sensors found!";
 }
 $loads=sys_getloadavg();
-echo "Current CPU Load at 1, 5 & 15 minutes $loads[0]%, $loads[1]%, $loads[2]%<br><br>";
+echo "CPU Load% at 1, 5 & 15 mins: $loads[0], $loads[1], $loads[2]<br><br>";
 
 $myfile = fopen("/home/allsky/daily", "r") or die("Unable to open file!");
 $mtimes=fread($myfile,filesize("/home/allsky/daily"));
