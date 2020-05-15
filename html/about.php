@@ -4,8 +4,6 @@ echo file_get_contents("html/header.html");
 echo '<body style="background-color:black"><font size="6"><font face="verdana">';
 echo "<font color='33FF5B'><u>Raspberry Pi AllSky Camera v1.09</u><font size='2'><br>";
 echo "<font color='white'><br></font>";
-
-// Get the outside temperature
 $handle = fopen("/sys/bus/w1/devices/w1_bus_master1/w1_master_slaves", "r");
 if ($handle) {
     while (($sensors = fgets($handle)) !== false) {
@@ -29,8 +27,9 @@ if ($handle) {
 } else {
     print "No sensors found!";
 }
+$loads=sys_getloadavg();
+echo "Current CPU Load at 1, 5 & 15 minutes $loads[0]%, $loads[1]%, $loads[2]%<br><br>";
 
-// Get times feom the daily file
 $myfile = fopen("/home/allsky/daily", "r") or die("Unable to open file!");
 $mtimes=fread($myfile,filesize("/home/allsky/daily"));
 echo "<font color='white'>";
