@@ -38,6 +38,8 @@ lightppd webserver and may be accessed as a normal webpage.
 
 Installation one-time tasks
 ---------------------------
+THIS PROJECT RUN IN ROOT SO PLEASE MAKE SURE THAT YOU INSTALL USING ROOT
+
 Most of this information came from https://www.dronkert.net/rpi/webcam.html
 which is what this project is based upon.
 
@@ -48,6 +50,7 @@ reboot
 
 raspi-config
 ------------
+- Set up your WiFi connection if you are planning to use a WiFi connection.  On a Pi Zero W it is the only way,
 - Enable camera
 - Enable SSH and 1-Wire in Interfacing Options
 SSH is to access the PI once it is in place and 1-Wire is for the DS18B20 temperature probe
@@ -121,4 +124,34 @@ nano /home/allsky/webcam     Change the variables lat and lon to reflect your st
 Run webcam with: 
 /home/allsky/webcam
 
-Webcan will now run and produce images and video automatically.
+Webcam will now run and produce images and video automatically.
+
+NOTE FOR USING THE RASPBERRY Pi ZERO W
+--------------------------------------
+The Raspberry Pi Zero W offers a very cheap way on building this AllSKy Camera.  To accomodate the Pi Zero W's 
+lower processing power a couple of mini changes help it out.  
+
+1). Edit /home/allsky/webcam and change lines 131 and 132 
+making sure that there is at least a six (6) mite gap between them with twiSetVid being the highter number.  
+This makes sure that at camera and night video switch over the raspistill buffer is clear.
+
+2). Edit the webcam file change the value of shotN to 5 at line 143.  This makes sure that night images have 
+time to be processed completely before starting a new image.
+
+127 # Shifts camera mode time at Evening Twilight / NIght
+128 # For the night camera mode
+129 #       HH:MM
+130 twiSet=-00:00 # Advance or delay when the camera switches from day to night.
+131 twiSetP=-00:09 # Camera switch time.  Needs to be at least 1 minute EARLIER than the Video switch time.
+132 twiSetVid=-00:15 # Offset advance or delay for the Video Day / Night switch.
+133
+134 # Number of minutes  between movie frame concatenation.  Default here is 10 [minutes]
+135 concat=10
+136
+137 # Minutes between movie image copies.  Default is 3.
+138 # raspistill can take up to 1 minute 45 seconds to process a night time image.
+139 cap=3
+140
+141 # Interval for raspistill to take shots.  Night time needs to be longer since raspistill needs longer at night to complete.
+142 shotD=2 # Daytime shot interval.  Default is 2 [minutes]
+143 shotN=5 # Night time shot interval.  It can take raspistill up to 1 minute 45 seconds to process a night time image.  Default is 4
