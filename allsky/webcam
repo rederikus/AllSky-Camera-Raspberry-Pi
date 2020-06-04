@@ -88,10 +88,13 @@ SCR="webcam"   # script / service name
 HOME="/home/allsky" # Working directory
 
 # *** S E T U P **********************************************************************
-# Set the Latitude and Longitude of your site
+# Setup the Latitude and Longitude of your site
 # Location
-#lat=[ your decimal DD.MMMMMMN/S Latitude here ] # my site
-#lon=[ your decimal DD.MMMMMME/W Longitude here ] # my site
+lat=35.07799110N # Pete home
+lon=80.99140269W # Pete home
+
+#lat=34.69590000N # GHRO
+#lon=80.53660000W # GHRO
 
 # Offsets advance or retard the Day or Twilight times in sunwait.  Anything in between is night
 # Offsets.  May be + or - Positive numbers move twilight or sunrise/sunset closer to noon.
@@ -318,7 +321,7 @@ echo "$amtM $amtH * * * $EXE $Daytime">>$HOME/webcamcron
 echo "#">>$HOME/webcamcron
 
 echo "# Regular */$shotD minutes raspistill DAYTIME image shots">>$HOME/webcamcron
-echo "*/$shotD $((amtH+1))-$((twiH-1)) * * * $EXE $Daytime">>$HOME/webcamcron
+echo "*/$shotD $((amtH+1))-$((twiH)) * * * $EXE $Daytime">>$HOME/webcamcron
 echo "#">>$HOME/webcamcron
 
 # Day time raspistill fill in
