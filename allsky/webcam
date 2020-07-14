@@ -145,7 +145,12 @@ shotN=4 # Night time shot interval.  It can take raspistill up to 1 minute 45 se
 # Create the Day and Night variable arguments for raspistill with which to take still images.
 # NOte that Horizonatal and Vertical Flip ( -hf and -vf ) may be needed to orinetate your images correctly.
 Daytime="-ISO auto -hf -awb greyworld -n -ex auto -w 800 -h 600 -o /run/shm/$SCR.jpg"
-Nighttime="-ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 6000000 -w 800 -h 600 -o /run/shm/$SCR.jpg"
+
+# GHRO Night from Greg's camera
+Nighttime="-ISO 800 -br 85 -co 100 -awb greyworld -n -ex night -ag 10.0 -dg 2.0  -ss 10000000 -w 800 -h 600 -o /run/shm/$SCR.jpg"
+
+# My standard night parameters
+#Nighttime="-ISO auto -hf -co 70 -awb greyworld -n -ex night -ag 9.0 -dg 2.0  -ss 6000000 -w 800 -h 600 -o /run/shm/$SCR.jpg"
 # *** E N D   O F   S E T U P *************************************************************************
 
 # Sunwait to get today's times
